@@ -107,6 +107,13 @@ export interface CronHealthCheck {
   logs: string[]
 }
 
+export interface AgoraHealthCheck {
+  status: HealthStatus
+  month: string
+  totalMinutes: number
+  totalHours: number
+}
+
 export interface HealthResponse {
   status: HealthStatus
   timestamp: string
@@ -114,5 +121,6 @@ export interface HealthResponse {
     server: ServerHealthCheck
     database: DatabaseHealthCheck
     cron: CronHealthCheck
+    agora: AgoraHealthCheck
   }
 }

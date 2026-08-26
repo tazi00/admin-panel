@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { adminApi } from '@/lib/api'
-import type { CronJobStatus, HealthResponse, HealthStatus } from '@/lib/types'
+import type { AgoraHealthCheck, CronJobStatus, HealthResponse, HealthStatus } from '@/lib/types'
 import { Badge } from './Badge'
 
 const POLL_INTERVAL_MS = 15_000
@@ -90,6 +90,24 @@ function CronJobRow({ job }: { job: CronJobStatus }) {
   )
 }
 
+function formatMonth(month: string): string {
+  if (month.length !== 6) return month
+  const year = month.slice(0, 4)
+  const monthIndex = Number(month.slice(4, 6)) - 1
+  const date = new Date(Number(year), monthIndex, 1)
+  return date.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })
+}
+
+function AgoraHealthCard({ check }: { check: AgoraHealthCheck }) {
+  return (
+    <HealthCardShell title="Agora" status={check.status}>
+      <Row label="Month" value={formatMonth(check.month)} />
+      <Row label="Total minutes" value={check.totalMinutes.toFixed(2)} />
+      <Row label="Total hours" value={check.totalHours.toFixed(2)} />
+    </HealthCardShell>
+  )
+}
+
 function CronHealthCard({ check }: { check: HealthResponse['checks']['cron'] }) {
   return (
     <HealthCardShell title="Cron jobs" status={check.status}>
@@ -153,6 +171,11 @@ export function HealthSection() {
         <ServerHealthCard check={health.checks.server} />
         <DatabaseHealthCard check={health.checks.database} />
         <CronHealthCard check={health.checks.cron} />
+      </div>
+
+      <h2 className="text-sm font-semibold text-text">Third party services</h2>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <AgoraHealthCard check={health.checks.agora} />
       </div>
     </div>
   )
