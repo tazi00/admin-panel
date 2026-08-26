@@ -10,6 +10,7 @@ import type {
   Stats,
   User,
   VerificationStatus,
+  YoutubeStats,
 } from './types'
 
 export class ApiError extends Error {
@@ -108,6 +109,14 @@ export const adminApi = {
   getHealth: () => request<HealthResponse>('/admin/health'),
 
   getUploadToken: () => request<ImageKitAuthParams>('/admin/upload-token'),
+
+  getYoutubeStats: (params: { from?: string; to?: string } = {}) => {
+    const qs = new URLSearchParams()
+    if (params.from) qs.set('from', params.from)
+    if (params.to) qs.set('to', params.to)
+    const suffix = qs.toString() ? `?${qs.toString()}` : ''
+    return request<{ success: boolean; data: YoutubeStats }>(`/admin/youtube/stats${suffix}`)
+  },
 
   // ── Users ──────────────────────────────────────────────────────────────
   listUsers: (params: {

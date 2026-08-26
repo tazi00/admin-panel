@@ -124,3 +124,35 @@ export interface HealthResponse {
     agora: AgoraHealthCheck
   }
 }
+
+export interface YoutubeSubscriberStats {
+  subscriberCount: number
+  hidden: boolean
+  viewCount: number
+  videoCount: number
+}
+
+export interface YoutubeVideo {
+  videoId: string
+  title: string
+  thumbnailUrl: string
+  url: string
+  publishedAt: string
+  viewCount: number
+  likeCount: number
+  commentCount: number
+}
+
+export interface YoutubeBestVideo {
+  video: YoutubeVideo | null
+  videosConsidered: number
+  range: {
+    from: string
+    to: string
+  }
+}
+
+export interface YoutubeStats {
+  subscribers: YoutubeSubscriberStats
+  bestVideo: YoutubeBestVideo
+}
