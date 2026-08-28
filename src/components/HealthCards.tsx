@@ -90,7 +90,8 @@ function CronJobRow({ job }: { job: CronJobStatus }) {
   )
 }
 
-function formatMonth(month: string): string {
+function formatMonth(month: string | undefined | null): string {
+  if (!month) return '—'
   if (month.length !== 6) return month
   const year = month.slice(0, 4)
   const monthIndex = Number(month.slice(4, 6)) - 1
@@ -102,8 +103,8 @@ function AgoraHealthCard({ check }: { check: AgoraHealthCheck }) {
   return (
     <HealthCardShell title="Agora" status={check.status}>
       <Row label="Month" value={formatMonth(check.month)} />
-      <Row label="Total minutes" value={check.totalMinutes.toFixed(2)} />
-      <Row label="Total hours" value={check.totalHours.toFixed(2)} />
+      <Row label="Total minutes" value={check.totalMinutes != null ? check.totalMinutes.toFixed(2) : '—'} />
+      <Row label="Total hours" value={check.totalHours != null ? check.totalHours.toFixed(2) : '—'} />
     </HealthCardShell>
   )
 }
