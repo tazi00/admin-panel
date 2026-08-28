@@ -2,6 +2,7 @@ import { API_BASE_URL } from './env'
 import { tokenStore } from './token-store'
 import type {
   AstrologerListItem,
+  HealthResponse,
   ImageKitAuthParams,
   PaginationMeta,
   Post,
@@ -9,6 +10,7 @@ import type {
   Stats,
   User,
   VerificationStatus,
+  YoutubeStats,
 } from './types'
 
 export class ApiError extends Error {
@@ -104,7 +106,17 @@ export const authApi = {
 export const adminApi = {
   getStats: () => request<Stats>('/admin/stats'),
 
+  getHealth: () => request<HealthResponse>('/admin/health'),
+
   getUploadToken: () => request<ImageKitAuthParams>('/admin/upload-token'),
+
+  getYoutubeStats: (params: { from?: string; to?: string } = {}) => {
+    const qs = new URLSearchParams()
+    if (params.from) qs.set('from', params.from)
+    if (params.to) qs.set('to', params.to)
+    const suffix = qs.toString() ? `?${qs.toString()}` : ''
+    return request<{ success: boolean; data: YoutubeStats }>(`/admin/youtube/stats${suffix}`)
+  },
 
   // ── Users ──────────────────────────────────────────────────────────────
   listUsers: (params: {
@@ -167,6 +179,12 @@ export const adminApi = {
     request<{ message: string }>(`/admin/astrologers/${id}/verification`, {
       method: 'PATCH',
       body: JSON.stringify({ status, rejectionReason }),
+    }),
+
+  updateCommission: (id: string, commissionPercentage: number) =>
+    request<{ message: string }>(`/admin/astrologers/${id}/commission`, {
+      method: 'PATCH',
+      body: JSON.stringify({ commissionPercentage }),
     }),
 
   // ── Posts ───────────────────────────────────────────────────────────────

@@ -42,6 +42,7 @@ export interface AstrologerListItem {
   document2Url: string | null
   rejectionReason: string | null
   verifiedAt: string | null
+  commissionPercentage: number | null
 }
 
 export interface Post {
@@ -75,4 +76,83 @@ export interface ImageKitAuthParams {
   token: string
   expire: number
   signature: string
+}
+
+export type HealthStatus = 'ok' | 'up' | 'degraded' | 'down' | string
+
+export interface CronJobStatus {
+  name: string
+  healthy: boolean
+  lastRunAt: string
+  lastSuccessAt: string | null
+  lastError: string | null
+}
+
+export interface ServerHealthCheck {
+  status: HealthStatus
+  uptimeSeconds: number
+  memoryUsageMb: number
+}
+
+export interface DatabaseHealthCheck {
+  status: HealthStatus
+  latencyMs: number
+  error: string | null
+  logs: string[]
+}
+
+export interface CronHealthCheck {
+  status: HealthStatus
+  jobs: CronJobStatus[]
+  logs: string[]
+}
+
+export interface AgoraHealthCheck {
+  status: HealthStatus
+  month: string
+  totalMinutes: number
+  totalHours: number
+}
+
+export interface HealthResponse {
+  status: HealthStatus
+  timestamp: string
+  checks: {
+    server: ServerHealthCheck
+    database: DatabaseHealthCheck
+    cron: CronHealthCheck
+    agora: AgoraHealthCheck
+  }
+}
+
+export interface YoutubeSubscriberStats {
+  subscriberCount: number
+  hidden: boolean
+  viewCount: number
+  videoCount: number
+}
+
+export interface YoutubeVideo {
+  videoId: string
+  title: string
+  thumbnailUrl: string
+  url: string
+  publishedAt: string
+  viewCount: number
+  likeCount: number
+  commentCount: number
+}
+
+export interface YoutubeBestVideo {
+  video: YoutubeVideo | null
+  videosConsidered: number
+  range: {
+    from: string
+    to: string
+  }
+}
+
+export interface YoutubeStats {
+  subscribers: YoutubeSubscriberStats
+  bestVideo: YoutubeBestVideo
 }

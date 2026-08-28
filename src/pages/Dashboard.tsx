@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { adminApi } from '@/lib/api'
+import { HealthSection } from '@/components/HealthCards'
+import { YoutubeStatsSection } from '@/components/YoutubeStatsSection'
 import type { Stats } from '@/lib/types'
 
 function StatCard({
@@ -69,6 +71,10 @@ export function Dashboard() {
           for verification review →
         </Link>
       )}
+
+      <YoutubeStatsSection />
+
+      <HealthSection />
     </div>
   )
 }

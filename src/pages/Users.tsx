@@ -186,7 +186,7 @@ export function Users() {
                       <button
                         disabled={busyId === u.id}
                         onClick={() => setBanTarget(u)}
-                        className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-colors ${
+                        className={`cursor-pointer rounded-md border px-2.5 py-1 text-xs font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
                           u.isBanned
                             ? 'border-success/30 text-success hover:bg-success-soft'
                             : 'border-danger/30 text-danger hover:bg-danger-soft'
@@ -197,7 +197,7 @@ export function Users() {
                       <button
                         disabled={busyId === u.id}
                         onClick={() => setDeleteTarget(u)}
-                        className="rounded-md border border-border px-2.5 py-1 text-xs font-medium text-text-secondary hover:border-danger/30 hover:text-danger"
+                        className="cursor-pointer rounded-md border border-border px-2.5 py-1 text-xs font-medium text-text-secondary hover:border-danger/30 hover:text-danger disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         Delete
                       </button>
