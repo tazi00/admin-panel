@@ -40,6 +40,7 @@ export interface AstrologerListItem {
   verificationStatus: VerificationStatus
   document1Url: string | null
   document2Url: string | null
+  videoUrl: string | null
   rejectionReason: string | null
   verifiedAt: string | null
   commissionPercentage: number | null

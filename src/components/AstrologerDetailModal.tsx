@@ -4,6 +4,7 @@ import { IMAGEKIT_PUBLIC_KEY, IMAGEKIT_URL_ENDPOINT } from '@/lib/env'
 import type { AstrologerListItem, VerificationStatus } from '@/lib/types'
 import { Modal } from '@/components/Modal'
 import { VerificationBadge } from '@/components/VerificationBadge'
+import { DocumentPreview, VideoPreview } from '@/components/MediaPreview'
 
 function DocumentSlot({
   label,
@@ -36,14 +37,7 @@ function DocumentSlot({
     <div className="rounded-lg border border-border bg-surface-alt p-3">
       <p className="mb-2 text-xs font-medium text-text-secondary">{label}</p>
       {url ? (
-        <a
-          href={url}
-          target="_blank"
-          rel="noreferrer"
-          className="mb-2 block truncate text-xs text-accent hover:underline"
-        >
-          View current document ↗
-        </a>
+        <DocumentPreview url={url} />
       ) : (
         <p className="mb-2 text-xs text-text-faint">No document added yet</p>
       )}
@@ -160,6 +154,17 @@ export function AstrologerDetailModal({
             <p className="text-text-faint">Bio</p>
             <p className="mt-0.5 text-text">{astrologer.bio || '—'}</p>
           </div>
+        </div>
+
+        <div>
+          <p className="mb-2 text-xs font-medium text-text-secondary">Intro video</p>
+          {astrologer.videoUrl ? (
+            <VideoPreview url={astrologer.videoUrl} />
+          ) : (
+            <p className="rounded-lg border border-border bg-surface-alt p-3 text-xs text-text-faint">
+              No video added
+            </p>
+          )}
         </div>
 
         <div>
