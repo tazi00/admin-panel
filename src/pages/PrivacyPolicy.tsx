@@ -120,6 +120,13 @@ export function PrivacyPolicy() {
             For privacy questions, data access, or deletion requests, contact us at:
           </p>
           <p className="font-semibold text-accent">astrobookconsole@gmail.com</p>
+          <p className="mt-3">
+            To delete your account and associated data, see{' '}
+            <a className="font-semibold text-accent" href="/delete-account">
+              how to delete your account
+            </a>
+            .
+          </p>
         </Section>
       </div>
     </div>

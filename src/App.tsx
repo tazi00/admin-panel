@@ -7,6 +7,7 @@ import { Users } from '@/pages/Users'
 import { Astrologers } from '@/pages/Astrologers'
 import { Posts } from '@/pages/Posts'
 import { PrivacyPolicy } from '@/pages/PrivacyPolicy'
+import { DeleteAccount } from '@/pages/DeleteAccount'
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/delete-account" element={<DeleteAccount />} />
           <Route element={<ProtectedLayout />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/users" element={<Users />} />
