@@ -1,45 +1,46 @@
+
+
+// import { API_BASE_URL } from '@/lib/env'
+
+// type Msg = { text: string; kind: 'err' | 'ok' | 'info' } | null
+
+// function toCanonicalIndianPhone(raw: string): string | null {
+//   let d = raw.replace(/\D/g, '')
+//   if (d.length === 12 && d.startsWith('91')) d = d.slice(2)
+//   else if (d.length === 11 && d.startsWith('0')) d = d.slice(1)
+//   return /^[6-9]\d{9}$/.test(d) ? `+91${d}` : null
+// }
+
+// async function call<T = unknown>(
+//   path: string,
+//   method: 'POST' | 'DELETE',
+//   body?: unknown,
+//   token?: string,
+// ): Promise<T> {
+//   const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+//   if (token) headers.Authorization = `Bearer ${token}`
+//   const res = await fetch(`${API_BASE_URL}${path}`, {
+//     method,
+//     headers,
+//     body: body ? JSON.stringify(body) : undefined,
+//   })
+//   let json: { message?: string } = {}
+//   try {
+//     json = await res.json()
+//   } catch {
+//     // non-JSON error body
+//   }
+//   if (!res.ok) throw new Error(json.message ?? 'Something went wrong. Please try again.')
+//   return json as T
+// }
+
+// type VerifyResponse = { data?: { accessToken?: string; isNewUser?: boolean } }
+
 // Public, unauthenticated page — linked as the "Delete account URL" in Google Play
 // Console (Data safety). Keep this route OUTSIDE <ProtectedLayout> in App.tsx.
 //
-// Flow (phone-login users): send-otp -> verify-otp -> DELETE /users/me, using the
-// same public endpoints the mobile app uses. Google-login users use the email option.
-
-import { useState } from 'react'
-import { API_BASE_URL } from '@/lib/env'
-
-type Msg = { text: string; kind: 'err' | 'ok' | 'info' } | null
-
-function toCanonicalIndianPhone(raw: string): string | null {
-  let d = raw.replace(/\D/g, '')
-  if (d.length === 12 && d.startsWith('91')) d = d.slice(2)
-  else if (d.length === 11 && d.startsWith('0')) d = d.slice(1)
-  return /^[6-9]\d{9}$/.test(d) ? `+91${d}` : null
-}
-
-async function call<T = unknown>(
-  path: string,
-  method: 'POST' | 'DELETE',
-  body?: unknown,
-  token?: string,
-): Promise<T> {
-  const headers: Record<string, string> = { 'Content-Type': 'application/json' }
-  if (token) headers.Authorization = `Bearer ${token}`
-  const res = await fetch(`${API_BASE_URL}${path}`, {
-    method,
-    headers,
-    body: body ? JSON.stringify(body) : undefined,
-  })
-  let json: { message?: string } = {}
-  try {
-    json = await res.json()
-  } catch {
-    // non-JSON error body
-  }
-  if (!res.ok) throw new Error(json.message ?? 'Something went wrong. Please try again.')
-  return json as T
-}
-
-type VerifyResponse = { data?: { accessToken?: string; isNewUser?: boolean } }
+// Static / informational only: no API calls from this page. Deletion requests
+// come in by email and are processed manually (see "Option 2").
 
 // Public, unauthenticated page — linked as the "Delete account URL" in Google Play
 // Console (Data safety). Keep this route OUTSIDE <ProtectedLayout> in App.tsx.
@@ -119,15 +120,6 @@ export function DeleteAccount() {
           </p>
         </Section>
       </div>
-    </div>
-  )
-}
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="mt-8">
-      <h2 className="font-display text-lg font-semibold text-text">{title}</h2>
-      <div className="mt-2 text-sm leading-relaxed text-text-secondary">{children}</div>
     </div>
   )
 }
