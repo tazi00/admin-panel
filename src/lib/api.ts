@@ -1,7 +1,11 @@
 import { API_BASE_URL } from './env'
 import { tokenStore } from './token-store'
 import type {
+  AdminAppointment,
   AstrologerListItem,
+  EarningsSummaryResponse,
+  AdminTransaction,
+  TransactionEvent,
   HealthResponse,
   ImageKitAuthParams,
   PaginationMeta,
@@ -198,6 +202,87 @@ export const adminApi = {
   },
 
   deletePost: (id: string) => request<{ message: string }>(`/admin/posts/${id}`, { method: 'DELETE' }),
+
+  // ── Appointments ──────────────────────────────────────────────────────────
+  listAppointments: (params: {
+    status?: string
+    astrologerId?: string
+    userId?: string
+    dateFrom?: string
+    dateTo?: string
+    page?: number
+    limit?: number
+  }) => {
+    const qs = new URLSearchParams()
+    if (params.status) qs.set('status', params.status)
+    if (params.astrologerId) qs.set('astrologerId', params.astrologerId)
+    if (params.userId) qs.set('userId', params.userId)
+    if (params.dateFrom) qs.set('dateFrom', params.dateFrom)
+    if (params.dateTo) qs.set('dateTo', params.dateTo)
+    qs.set('page', String(params.page ?? 1))
+    qs.set('limit', String(params.limit ?? 20))
+    return request<{ appointments: AdminAppointment[]; meta: PaginationMeta }>(
+      `/admin/appointments?${qs.toString()}`,
+    )
+  },
+
+  // ── Earnings ──────────────────────────────────────────────────────────────
+  getEarnings: (params: {
+    astrologerId?: string
+    dateFrom?: string
+    dateTo?: string
+    page?: number
+    limit?: number
+  }) => {
+    const qs = new URLSearchParams()
+    if (params.astrologerId) qs.set('astrologerId', params.astrologerId)
+    if (params.dateFrom) qs.set('dateFrom', params.dateFrom)
+    if (params.dateTo) qs.set('dateTo', params.dateTo)
+    qs.set('page', String(params.page ?? 1))
+    qs.set('limit', String(params.limit ?? 20))
+    return request<EarningsSummaryResponse>(`/admin/earnings?${qs.toString()}`)
+  },
+
+  // ── Transactions ──────────────────────────────────────────────────────────
+  listTransactions: (params: {
+    status?: string
+    userId?: string
+    astrologerId?: string
+    page?: number
+    limit?: number
+  }) => {
+    const qs = new URLSearchParams()
+    if (params.status) qs.set('status', params.status)
+    if (params.userId) qs.set('userId', params.userId)
+    if (params.astrologerId) qs.set('astrologerId', params.astrologerId)
+    qs.set('page', String(params.page ?? 1))
+    qs.set('limit', String(params.limit ?? 20))
+    return request<{ transactions: AdminTransaction[]; pagination: PaginationMeta }>(
+      `/admin/transactions?${qs.toString()}`,
+    )
+  },
+
+  listTransactionEvents: (params: {
+    event?: string
+    userId?: string
+    astrologerId?: string
+    razorpayOrderId?: string
+    appointmentId?: string
+    page?: number
+    limit?: number
+  }) => {
+    const qs = new URLSearchParams()
+    if (params.event) qs.set('event', params.event)
+    if (params.userId) qs.set('userId', params.userId)
+    if (params.astrologerId) qs.set('astrologerId', params.astrologerId)
+    if (params.razorpayOrderId) qs.set('razorpayOrderId', params.razorpayOrderId)
+    if (params.appointmentId) qs.set('appointmentId', params.appointmentId)
+    qs.set('page', String(params.page ?? 1))
+    qs.set('limit', String(params.limit ?? 20))
+    return request<{ events: TransactionEvent[]; pagination: PaginationMeta }>(
+      `/admin/transaction-events?${qs.toString()}`,
+    )
+  },
 }
 
 // ─── ImageKit direct upload (for astrologer documents) ─────────────────────

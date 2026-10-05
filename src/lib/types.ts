@@ -157,3 +157,91 @@ export interface YoutubeStats {
   subscribers: YoutubeSubscriberStats
   bestVideo: YoutubeBestVideo
 }
+
+// ─── Consultations / Appointments ──────────────────────────────────────────
+
+export type AppointmentStatus = 'pending' | 'confirmed' | 'ongoing' | 'completed' | 'cancelled'
+
+export interface AdminAppointmentService {
+  id: string
+  isBasic: boolean
+  title: string
+  coverImage: string | null
+  durationMinutes: number
+  price: string | null
+}
+
+export interface AdminAppointment {
+  id: string
+  scheduledAt: string
+  endsAt: string
+  durationMinutes: number
+  price: string | null
+  status: AppointmentStatus
+  bundleStatus: 'in_progress' | 'paused' | 'completed' | null
+  parentId: string | null
+  notes: string | null
+  createdAt: string
+  service: AdminAppointmentService
+  astrologerName: string | null
+  userName: string | null
+  astrologerId: string
+  userId: string
+}
+
+// ─── Earnings ──────────────────────────────────────────────────────────────
+
+export interface AstrologerEarningRow {
+  astrologer_id: string
+  astrologer_name: string | null
+  avatar_url: string | null
+  total_sessions: number
+  gross_revenue: string
+  commission_pct: number
+  platform_revenue: string
+  astrologer_payout: string
+}
+
+export interface RevenueTotals {
+  totalSessions: number
+  grossRevenue: string
+  platformRevenue: string
+}
+
+export interface EarningsSummaryResponse {
+  summary: AstrologerEarningRow[]
+  totals: RevenueTotals
+  meta: PaginationMeta
+}
+
+// ─── Transactions ──────────────────────────────────────────────────────────
+
+export interface AdminTransaction {
+  id: string
+  razorpayOrderId: string | null
+  razorpayPaymentId: string | null
+  appointmentId: string | null
+  userId: string | null
+  astrologerId: string | null
+  amount: string | null
+  currency: string | null
+  status: 'pending' | 'success' | 'failed' | 'refunded'
+  createdAt: string
+  updatedAt: string
+}
+
+export interface TransactionEvent {
+  id: string
+  razorpayOrderId: string | null
+  paymentId: string | null
+  appointmentId: string | null
+  userId: string | null
+  astrologerId: string | null
+  event: string
+  amount: string | null
+  currency: string | null
+  errorCode: string | null
+  errorDescription: string | null
+  rawPayload: unknown
+  createdAt: string
+}

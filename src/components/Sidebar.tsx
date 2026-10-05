@@ -5,6 +5,9 @@ const navItems = [
   { to: '/users', label: 'Users' },
   { to: '/astrologers', label: 'Astrologers' },
   { to: '/posts', label: 'Posts' },
+  { to: '/consultations', label: 'Consultations' },
+  { to: '/earnings', label: 'Earnings' },
+  { to: '/transactions', label: 'Transactions' },
 ]
 
 export function Sidebar() {

@@ -6,6 +6,9 @@ import { Dashboard } from '@/pages/Dashboard'
 import { Users } from '@/pages/Users'
 import { Astrologers } from '@/pages/Astrologers'
 import { Posts } from '@/pages/Posts'
+import { Consultations } from '@/pages/Consultations'
+import { Earnings } from '@/pages/Earnings'
+import { Transactions } from '@/pages/Transactions'
 import { PrivacyPolicy } from '@/pages/PrivacyPolicy'
 import { DeleteAccount } from '@/pages/DeleteAccount'
 
@@ -22,6 +25,9 @@ export default function App() {
             <Route path="/users" element={<Users />} />
             <Route path="/astrologers" element={<Astrologers />} />
             <Route path="/posts" element={<Posts />} />
+            <Route path="/consultations" element={<Consultations />} />
+            <Route path="/earnings" element={<Earnings />} />
+            <Route path="/transactions" element={<Transactions />} />
           </Route>
         </Routes>
       </AuthProvider>
