@@ -22,10 +22,10 @@ function fmtDate(iso: string) {
   })
 }
 
-const ROLE_TONE: Record<string, 'neutral' | 'info' | 'warning'> = {
+const ROLE_TONE: Record<string, 'neutral' | 'accent' | 'pending'> = {
   user: 'neutral',
-  astrologer: 'info',
-  admin: 'warning',
+  astrologer: 'accent',
+  admin: 'pending',
 }
 
 // ─── Filter chip ─────────────────────────────────────────────────────────────
@@ -115,11 +115,11 @@ export function Users() {
 
   useEffect(load, [search, role, isBanned, page])
 
-  const updateParam = (key: string, value: string | undefined) => {
+const updateParam = (key: string, value: string | undefined) => {
     const next = new URLSearchParams(searchParams)
     if (value !== undefined && value !== '') next.set(key, value)
     else next.delete(key)
-    next.delete('page')
+    if (key !== 'page') next.delete('page')   // ← yahi fix hai
     setSearchParams(next)
   }
 

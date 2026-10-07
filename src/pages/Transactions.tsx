@@ -9,8 +9,8 @@ type TxnStatus = 'pending' | 'success' | 'failed' | 'refunded'
 type TxnView = 'orders' | 'events'
 
 const TXN_STATUS_OPTS: TxnStatus[] = ['pending', 'success', 'failed', 'refunded']
-const TXN_STATUS_TONE: Record<TxnStatus, 'neutral' | 'warning' | 'info' | 'success' | 'danger'> = {
-  pending: 'warning',
+const TXN_STATUS_TONE: Record<TxnStatus, 'neutral' | 'pending' | 'accent' | 'success' | 'danger'> = {
+  pending: 'pending',
   success: 'success',
   failed: 'danger',
   refunded: 'neutral',

@@ -128,7 +128,7 @@ export function Posts() {
 
       {meta && (
         <div className="rounded-xl border border-border bg-surface">
-          <Pagination meta={meta} onPageChange={(p) => updateParam('page', String(p))} />
+          <Pagination page={meta.page} totalPages={meta.totalPages} total={meta.total} onPage={(p) => updateParam('page', String(p))} />
         </div>
       )}
 

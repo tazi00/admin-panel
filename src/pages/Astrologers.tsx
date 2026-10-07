@@ -195,7 +195,7 @@ export function Astrologers() {
             )}
           </tbody>
         </table>
-        {meta && <Pagination meta={meta} onPageChange={(p) => updateParam('page', String(p))} />}
+        {meta && <Pagination page={meta.page} totalPages={meta.totalPages} total={meta.total} onPage={(p) => updateParam('page', String(p))} />}
       </div>
 
       {selected && (

@@ -8,10 +8,10 @@ import { Pagination } from '@/components/Pagination'
 const STATUS_OPTS = ['pending', 'confirmed', 'ongoing', 'completed', 'cancelled'] as const
 type AptStatus = (typeof STATUS_OPTS)[number]
 
-const STATUS_TONE: Record<AptStatus, 'neutral' | 'warning' | 'info' | 'success' | 'danger'> = {
-  pending: 'warning',
-  confirmed: 'info',
-  ongoing: 'info',
+const STATUS_TONE: Record<AptStatus, 'neutral' | 'pending' | 'accent' | 'success' | 'danger'> = {
+  pending: 'pending',
+  confirmed: 'accent',
+  ongoing: 'accent',
   completed: 'success',
   cancelled: 'danger',
 }
