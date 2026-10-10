@@ -191,6 +191,13 @@ export const adminApi = {
       body: JSON.stringify({ commissionPercentage }),
     }),
 
+  // ── Categories ───────────────────────────────────────────────────────────
+  setCategoryHeroVideo: (id: string, heroVideoUrl: string) =>
+    request<{ success: boolean; data: { categoryId: string; heroVideoUrl: string } }>(
+      `/admin/categories/${id}/hero-video`,
+      { method: 'PATCH', body: JSON.stringify({ heroVideoUrl }) },
+    ),
+
   // ── Posts ───────────────────────────────────────────────────────────────
   listPosts: (params: { search?: string; astrologerId?: string; page?: number; limit?: number }) => {
     const qs = new URLSearchParams()

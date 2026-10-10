@@ -8,6 +8,7 @@ const navItems = [
   { to: '/consultations', label: 'Consultations' },
   { to: '/earnings', label: 'Earnings' },
   { to: '/transactions', label: 'Transactions' },
+  { to: '/categories', label: 'Categories' },
 ]
 
 export function Sidebar() {

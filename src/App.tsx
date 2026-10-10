@@ -9,6 +9,7 @@ import { Posts } from '@/pages/Posts'
 import { Consultations } from '@/pages/Consultations'
 import { Earnings } from '@/pages/Earnings'
 import { Transactions } from '@/pages/Transactions'
+import { Categories } from '@/pages/Categories'
 import { PrivacyPolicy } from '@/pages/PrivacyPolicy'
 import { DeleteAccount } from '@/pages/DeleteAccount'
 
@@ -28,6 +29,7 @@ export default function App() {
             <Route path="/consultations" element={<Consultations />} />
             <Route path="/earnings" element={<Earnings />} />
             <Route path="/transactions" element={<Transactions />} />
+            <Route path="/categories" element={<Categories />} />
           </Route>
         </Routes>
       </AuthProvider>
