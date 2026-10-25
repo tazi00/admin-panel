@@ -13,6 +13,8 @@ import { Categories } from '@/pages/Categories'
 import { RefundRequests } from '@/pages/RefundRequests'
 import { PrivacyPolicy } from '@/pages/PrivacyPolicy'
 import { DeleteAccount } from '@/pages/DeleteAccount'
+import { Logs } from '@/pages/Logs'
+import { Payouts } from '@/pages/Payouts'
 
 export default function App() {
   return (
@@ -30,8 +32,10 @@ export default function App() {
             <Route path="/consultations" element={<Consultations />} />
             <Route path="/earnings" element={<Earnings />} />
             <Route path="/transactions" element={<Transactions />} />
+            <Route path="/payouts" element={<Payouts />} />
             <Route path="/refund-requests" element={<RefundRequests />} />
             <Route path="/categories" element={<Categories />} />
+            <Route path="/logs" element={<Logs />} />
           </Route>
         </Routes>
       </AuthProvider>

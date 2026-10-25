@@ -272,3 +272,39 @@ export interface RefundRequest {
   createdAt: string
   updatedAt: string
 }
+
+// ─── Logs ──────────────────────────────────────────────────────────────────
+
+export type LogLevel = 'debug' | 'info' | 'warn' | 'error'
+
+export interface LogEntry {
+  id: string
+  level: LogLevel
+  message: string
+  source: string | null       // e.g. "appointments", "users", "cron"
+  context: Record<string, unknown> | null  // extra JSON payload
+  createdAt: string
+}
+
+export interface LogsResponse {
+  logs: LogEntry[]
+  meta: PaginationMeta
+}
+
+// ─── Payouts ───────────────────────────────────────────────────────────────
+
+// A recorded payout — created when admin clicks "Mark as Paid"
+export interface PayoutRecord {
+  id: string
+  astrologerId: string
+  astrologerName: string | null
+  month: string          // YYYY-MM
+  amount: string         // amount paid (matches astrologer_payout from earnings)
+  paidAt: string         // ISO timestamp
+  notes: string | null   // optional notes from admin
+}
+
+export interface PayoutRecordsResponse {
+  records: PayoutRecord[]
+  meta?: PaginationMeta
+}

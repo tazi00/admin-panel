@@ -8,8 +8,10 @@ const navItems = [
   { to: '/consultations', label: 'Consultations' },
   { to: '/earnings', label: 'Earnings' },
   { to: '/transactions', label: 'Transactions' },
+  { to: '/payouts', label: 'Payouts' },
   { to: '/refund-requests', label: 'Refund Requests' },
   { to: '/categories', label: 'Categories' },
+  { to: '/logs', label: 'Logs' },
 ]
 
 export function Sidebar() {
@@ -31,7 +33,7 @@ export function Sidebar() {
         <p className="relative text-xs text-text-faint">Admin console</p>
       </div>
 
-      <nav className="flex-1 space-y-1 px-3 py-4">
+      <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
         {navItems.map((item) => (
           <NavLink
             key={item.to}

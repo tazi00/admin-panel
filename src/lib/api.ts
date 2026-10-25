@@ -309,6 +309,56 @@ export const adminApi = {
       `/admin/transaction-events?${qs.toString()}`,
     )
   },
+
+  // ── Logs ───────────────────────────────────────────────────────────────────
+  listLogs: (params: {
+    level?: string
+    source?: string
+    search?: string
+    page?: number
+    limit?: number
+  }) => {
+    const qs = new URLSearchParams()
+    if (params.level) qs.set('level', params.level)
+    if (params.source) qs.set('source', params.source)
+    if (params.search) qs.set('search', params.search)
+    qs.set('page', String(params.page ?? 1))
+    qs.set('limit', String(params.limit ?? 50))
+    return request<{ logs: import('./types').LogEntry[]; meta: import('./types').PaginationMeta }>(
+      `/admin/logs?${qs.toString()}`,
+    )
+  },
+
+  // ── Payouts ────────────────────────────────────────────────────────────────
+  listPayoutRecords: (month: string) =>
+    request<import('./types').PayoutRecordsResponse>(`/admin/payouts?month=${month}`),
+
+  markPayoutPaid: (astrologerId: string, month: string, amount: string, notes?: string) =>
+    request<import('./types').PayoutRecord>(`/admin/payouts`, {
+      method: 'POST',
+      body: JSON.stringify({ astrologerId, month, amount, notes }),
+    }),
+
+  listPayoutHistory: (params: {
+    astrologerId?: string
+    month?: string
+    page?: number
+    limit?: number
+  }) => {
+    const qs = new URLSearchParams()
+    if (params.astrologerId) qs.set('astrologerId', params.astrologerId)
+    if (params.month) qs.set('month', params.month)
+    qs.set('page', String(params.page ?? 1))
+    qs.set('limit', String(params.limit ?? 20))
+    return request<{ records: import('./types').PayoutRecord[]; meta: import('./types').PaginationMeta }>(
+      `/admin/payouts/history?${qs.toString()}`,
+    )
+  },
+
+  getUserPaymentSummary: (userId: string) =>
+    request<{ totalPaid: string; totalSessions: number; totalRefunded: string }>(
+      `/admin/users/${userId}/payment-summary`,
+    ),
 }
 
 // ─── ImageKit direct upload (for astrologer documents) ─────────────────────
