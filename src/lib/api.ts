@@ -3,11 +3,14 @@ import { tokenStore } from './token-store'
 import type {
   AdminAppointment,
   AstrologerListItem,
+  AstrologerProfile,
+  ConsultationService,
   EarningsSummaryResponse,
   AdminTransaction,
   TransactionEvent,
   HealthResponse,
   ImageKitAuthParams,
+  MyPost,
   PaginationMeta,
   Post,
   RefundRequest,
@@ -113,7 +116,7 @@ export const adminApi = {
 
   getHealth: () => request<HealthResponse>('/admin/health'),
 
-  getUploadToken: () => request<ImageKitAuthParams>('/admin/upload-token'),
+  getUploadToken: () => request<ImageKitAuthParams>(`/admin/upload-token?_t=${Date.now()}`),
 
   getYoutubeStats: (params: { from?: string; to?: string } = {}) => {
     const qs = new URLSearchParams()
@@ -359,6 +362,87 @@ export const adminApi = {
     request<{ totalPaid: string; totalSessions: number; totalRefunded: string }>(
       `/admin/users/${userId}/payment-summary`,
     ),
+}
+
+// ─── My profile / posts / services (admin acting as AstroBook Official) ────
+// Admin is also an approved astrologer, so these hit the regular
+// astrologer-facing endpoints (not admin/* routes).
+
+export const myApi = {
+  // ── Profile ──────────────────────────────────────────────────────────────
+  getMe: () =>
+    request<{ id: string; name: string | null; bio: string | null; avatarUrl: string | null; email: string | null }>('/users/me'),
+
+  updateMe: (data: { name?: string; bio?: string; avatarUrl?: string }) =>
+    request<{ id: string; name: string | null; bio: string | null; avatarUrl: string | null }>('/users/me', {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
+
+  getAstrologerProfile: () =>
+    request<{ hasApplied: boolean; verificationStatus: string | null; rejectionReason: string | null }>(
+      '/users/me/astrologer-application',
+    ),
+
+  updateAstrologerProfile: (data: {
+    bio?: string
+    experience?: number
+    languages?: string[]
+    specializations?: string[]
+    photoUrl?: string
+  }) =>
+    request<{ success: boolean; data: AstrologerProfile }>('/users/me/astrologer-profile', {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
+
+  // ── Posts ──────────────────────────────────────────────────────────────
+  // backend { success, data: { posts, hasMore } } wrap karta hai — .data unwrap karo
+  getMyPosts: () =>
+    request<{ success: boolean; data: { posts: MyPost[]; hasMore: boolean } }>('/posts/my')
+      .then((r) => r.data),
+
+  // cache-busting param — browser same token cache na kare, warna ImageKit dusre use par reject karta hai
+  // backend { success, data: ImageKitAuthParams } wrap karta hai — .data unwrap karo
+  getPostUploadToken: () =>
+    request<{ success: boolean; data: ImageKitAuthParams }>(`/posts/upload-token?_t=${Date.now()}`)
+      .then((res) => res.data),
+
+  createPost: (data: {
+    content: string
+    mediaUrl?: string
+    mediaType?: 'IMAGE' | 'VIDEO' | 'TEXT'
+    bgColor?: string
+    textColor?: string
+  }) =>
+    request<{ success: boolean; data: MyPost }>('/posts', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  deletePost: (id: string) =>
+    request<{ success: boolean }>(`/posts/${id}`, { method: 'DELETE' }),
+
+  // ── Consultation services ─────────────────────────────────────────────
+  // backend { success, data: { services } } wrap karta hai — .data unwrap karo
+  getMyServices: () =>
+    request<{ success: boolean; data: { services: ConsultationService[] } }>('/consultation/services/mine')
+      .then((r) => r.data),
+
+  createService: (data: {
+    title: string
+    shortDescription: string
+    coverImage: string
+    about: string
+    tags: string[]
+  }) =>
+    request<{ success: boolean; data: ConsultationService }>('/consultation/services', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  deleteService: (id: string) =>
+    request<{ success: boolean }>(`/consultation/services/${id}`, { method: 'DELETE' }),
 }
 
 // ─── ImageKit direct upload (for astrologer documents) ─────────────────────

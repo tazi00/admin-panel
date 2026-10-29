@@ -15,6 +15,9 @@ import { PrivacyPolicy } from '@/pages/PrivacyPolicy'
 import { DeleteAccount } from '@/pages/DeleteAccount'
 import { Logs } from '@/pages/Logs'
 import { Payouts } from '@/pages/Payouts'
+import { MyProfile } from '@/pages/MyProfile'
+import { MyPosts } from '@/pages/MyPosts'
+import { MyServices } from '@/pages/MyServices'
 
 export default function App() {
   return (
@@ -36,6 +39,9 @@ export default function App() {
             <Route path="/refund-requests" element={<RefundRequests />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/logs" element={<Logs />} />
+            <Route path="/my-profile" element={<MyProfile />} />
+            <Route path="/my-posts" element={<MyPosts />} />
+            <Route path="/my-services" element={<MyServices />} />
           </Route>
         </Routes>
       </AuthProvider>

@@ -58,6 +58,56 @@ export interface Post {
   astrologerAvatarUrl: string | null
 }
 
+// My own post (from GET /posts/my — richer than admin list)
+export interface MyPost {
+  id: string
+  content: string
+  mediaUrl: string | null
+  mediaType: 'IMAGE' | 'VIDEO' | 'TEXT' | null
+  bgColor: string | null
+  textColor: string | null
+  tags: string[]
+  likesCount: number
+  commentsCount: number
+  createdAt: string
+}
+
+// Consultation service variant (10/30/45/60/90 min duration + price)
+export interface ServiceVariant {
+  id: string
+  durationMinutes: number
+  price: string
+  isDefault: boolean
+}
+
+// Consultation service
+export interface ConsultationService {
+  id: string
+  isBasic: boolean          // Platform auto-created "Basic Consultation" — cannot be deactivated
+  title: string
+  shortDescription: string
+  coverImage: string | null
+  about: string
+  tags: string[]
+  isActive: boolean
+  createdAt: string
+  variants?: ServiceVariant[]  // Attached by getMyServices() — 5 duration options
+}
+
+// Astrologer profile
+export interface AstrologerProfile {
+  id: string
+  bio: string | null
+  experience: number | null
+  languages: string[] | null
+  specializations: string[] | null
+  photoUrl: string | null
+  rating: string | null
+  totalReviews: number | null
+  isVerified: boolean
+  verificationStatus: 'pending' | 'approved' | 'rejected'
+}
+
 export interface PaginationMeta {
   total: number
   page: number

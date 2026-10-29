@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 
-const navItems = [
+const adminItems = [
   { to: '/', label: 'Dashboard', end: true },
   { to: '/users', label: 'Users' },
   { to: '/astrologers', label: 'Astrologers' },
@@ -13,6 +13,31 @@ const navItems = [
   { to: '/categories', label: 'Categories' },
   { to: '/logs', label: 'Logs' },
 ]
+
+// Pages for managing AstroBook Official's own content
+const myItems = [
+  { to: '/my-profile', label: 'My Profile' },
+  { to: '/my-posts', label: 'My Posts' },
+  { to: '/my-services', label: 'My Services' },
+]
+
+function NavItem({ to, label, end }: { to: string; label: string; end?: boolean }) {
+  return (
+    <NavLink
+      to={to}
+      end={end}
+      className={({ isActive }) =>
+        `block rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+          isActive
+            ? 'bg-accent-soft text-accent'
+            : 'text-text-secondary hover:bg-surface-alt hover:text-text'
+        }`
+      }
+    >
+      {label}
+    </NavLink>
+  )
+}
 
 export function Sidebar() {
   return (
@@ -33,23 +58,25 @@ export function Sidebar() {
         <p className="relative text-xs text-text-faint">Admin console</p>
       </div>
 
-      <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
-        {navItems.map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            end={item.end}
-            className={({ isActive }) =>
-              `block rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                isActive
-                  ? 'bg-accent-soft text-accent'
-                  : 'text-text-secondary hover:bg-surface-alt hover:text-text'
-              }`
-            }
-          >
-            {item.label}
-          </NavLink>
-        ))}
+      <nav className="flex-1 overflow-y-auto px-3 py-4">
+        {/* Admin tools */}
+        <div className="space-y-1">
+          {adminItems.map((item) => (
+            <NavItem key={item.to} {...item} />
+          ))}
+        </div>
+
+        {/* AstroBook Official content management */}
+        <div className="mt-5">
+          <p className="mb-1.5 px-3 text-[10px] font-semibold uppercase tracking-widest text-text-faint">
+            AstroBook Official
+          </p>
+          <div className="space-y-1">
+            {myItems.map((item) => (
+              <NavItem key={item.to} {...item} />
+            ))}
+          </div>
+        </div>
       </nav>
     </aside>
   )
