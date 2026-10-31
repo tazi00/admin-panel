@@ -101,13 +101,34 @@ export function DocumentPreview({ url }: { url: string }) {
 
 export function VideoPreview({ url }: { url: string }) {
   const [broken, setBroken] = useState(false)
+
   if (broken) {
+    const isImageKit = url.includes('ik.imagekit.io')
     return (
-      <a href={url} target="_blank" rel="noreferrer" className="text-xs text-accent hover:underline">
-        Video load nahi hua — file kholo ↗
-      </a>
+      <div className="rounded-lg border border-border bg-surface-alt p-3 space-y-2">
+        <p className="text-xs text-danger font-medium">
+          {isImageKit
+            ? '⚠️ Video load nahi hua — ImageKit free plan ka monthly video bandwidth quota exceed ho gaya.'
+            : '⚠️ Video load nahi hua.'}
+        </p>
+        {isImageKit && (
+          <p className="text-xs text-text-faint">
+            Monthly quota reset hone ke baad automatically theek ho jaayega.
+            Permanent fix ke liye Cloudinary ya ImageKit plan upgrade karo.
+          </p>
+        )}
+        <a
+          href={url}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-block text-xs text-accent hover:underline"
+        >
+          Direct link try karo ↗
+        </a>
+      </div>
     )
   }
+
   return (
     <video
       src={url}
